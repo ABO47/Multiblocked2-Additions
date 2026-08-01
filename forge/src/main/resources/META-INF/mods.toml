@@ -34,7 +34,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="mbd2"
 mandatory=true
-versionRange="[${minecraft_version}-${mbd2_version},)"
+versionRange="[${mbd2_version},)"
 ordering="AFTER"
 side="BOTH"
 
