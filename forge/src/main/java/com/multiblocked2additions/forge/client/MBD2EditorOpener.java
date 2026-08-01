@@ -35,6 +35,7 @@ public final class MBD2EditorOpener {
         if (ui != capturedUi) {
             capturedUi = ui;
             ui.registerCloseListener(() -> {
+                MBD2ProjectAutosaver.save(machineEditor.getCurrentProject(), machineEditor.getCurrentProjectFile());
                 lastProject = machineEditor.getCurrentProject();
                 lastProjectFile = machineEditor.getCurrentProjectFile();
                 MBD2EditorWindowView.onEditorClosed();

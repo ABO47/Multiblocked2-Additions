@@ -40,6 +40,7 @@ public final class ForgeClientEvents {
                     MBD2EditorOpener.openEditor();
                 }
                 MBD2EditorWindowView.applyPendingResize();
+                MBD2ProjectAutosaver.tick();
             }
         }
 
