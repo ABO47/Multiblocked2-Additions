@@ -3,6 +3,8 @@ package com.multiblocked2additions.forge.client;
 import com.lowdragmc.lowdraglib.gui.editor.data.IProject;
 import com.lowdragmc.lowdraglib.gui.editor.ui.Editor;
 import com.lowdragmc.mbd2.common.gui.editor.MachineProject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -41,7 +43,23 @@ public final class MBD2ProjectAutosaver {
         if (editor == null) {
             return;
         }
-        save(editor.getCurrentProject(), editor.getCurrentProjectFile());
+        IProject project = editor.getCurrentProject();
+        save(project, editor.getCurrentProjectFile());
+        reloadMachines(project);
+    }
+
+    public static void reloadMachines(IProject project) {
+        if (!(project instanceof MachineProject machineProject)) {
+            return;
+        }
+        ResourceLocation id = machineProject.getDefinition().id();
+        if (id == null) {
+            return;
+        }
+        ClientPacketListener connection = Minecraft.getInstance().getConnection();
+        if (connection != null) {
+            connection.sendCommand("mbd2additions reload_machine " + id);
+        }
     }
 
     public static void save(IProject project, File file) {

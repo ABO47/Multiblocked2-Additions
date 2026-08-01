@@ -29,7 +29,7 @@ public final class ForgeContent {
                 return item;
             });
 
-    private static final RegistryObject<Item> EDITOR_TABLET = ITEMS.register(
+    public static final RegistryObject<Item> EDITOR_TABLET = ITEMS.register(
             "editor_tablet",
             () -> new EditorTabletItem(new Item.Properties().stacksTo(1)));
 

@@ -8,6 +8,7 @@
     "EditorMixin",
     "MachineProjectMixin",
     "MinecraftMixin",
+    "MultiblockAreaPanelMixin",
     "MultiblockMachineProjectMixin",
     "ViewMenuMixin"
   ],

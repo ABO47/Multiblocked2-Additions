@@ -13,6 +13,12 @@ public final class MBD2KeyMappings {
             GLFW.GLFW_KEY_B,
             TranslationKeys.KEY_CATEGORY);
 
+    public static final KeyMapping SWITCH_TABLET_MODE = new KeyMapping(
+            TranslationKeys.KEY_SWITCH_TABLET_MODE,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_M,
+            TranslationKeys.KEY_CATEGORY);
+
     private MBD2KeyMappings() {
     }
 }

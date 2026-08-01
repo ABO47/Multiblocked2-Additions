@@ -3,5 +3,16 @@
   "item.multiblocked2additions.multiblocked2additions_item": "Multiblocked2 Additions Item",
   "item.multiblocked2additions.editor_tablet": "Editor Tablet",
   "key.multiblocked2additions.open_editor": "Open MBD2 Editor",
-  "key.categories.multiblocked2additions": "Multiblocked2 Additions"
+  "key.multiblocked2additions.switch_tablet_mode": "Switch Tablet Mode",
+  "key.categories.multiblocked2additions": "Multiblocked2 Additions",
+  "message.multiblocked2additions.tablet_mode": "Tablet Mode: %s",
+  "mode.multiblocked2additions.editor": "Editor",
+  "mode.multiblocked2additions.multiblock_selection": "Multiblock Selection",
+  "message.multiblocked2additions.corner_first": "First Corner Set",
+  "message.multiblocked2additions.corner_second": "Second Corner Set",
+  "message.multiblocked2additions.selection_cleared": "Selection Cleared",
+  "message.multiblocked2additions.controller_set": "Controller Set",
+  "message.multiblocked2additions.controller_outside": "Controller must be inside the selection",
+  "message.multiblocked2additions.selection_help": "Multiblock Selection: right-click corners, sneak+right-click controller, left-click clears",
+  "command.multiblocked2additions.reload.success": "Reloaded %s"
 }

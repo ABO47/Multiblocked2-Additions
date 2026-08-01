@@ -18,9 +18,11 @@ public final class MBD2Config {
     private static final int MAX_WINDOW_VIEW = 10;
     private static final int DEFAULT_AUTOSAVE_INTERVAL_MINUTES = 5;
     private static final int MAX_AUTOSAVE_INTERVAL_MINUTES = 60;
+    private static final int DEFAULT_LAST_EDITOR_TAB = -1;
 
     private static int windowView = loadInt("window_view", DEFAULT_WINDOW_VIEW, 0, MAX_WINDOW_VIEW);
     private static int autosaveIntervalMinutes = loadInt("autosave_interval_minutes", DEFAULT_AUTOSAVE_INTERVAL_MINUTES, 1, MAX_AUTOSAVE_INTERVAL_MINUTES);
+    private static int lastEditorTab = loadInt("last_editor_tab", DEFAULT_LAST_EDITOR_TAB, -1, 100);
 
     static {
         save();
@@ -45,6 +47,18 @@ public final class MBD2Config {
         return autosaveIntervalMinutes;
     }
 
+    public static int getLastEditorTab() {
+        return lastEditorTab;
+    }
+
+    public static void setLastEditorTab(int index) {
+        if (lastEditorTab == index) {
+            return;
+        }
+        lastEditorTab = index;
+        save();
+    }
+
     private static int loadInt(String key, int defaultValue, int min, int max) {
         int value = defaultValue;
         Path path = configPath();
@@ -61,6 +75,7 @@ public final class MBD2Config {
         JsonObject json = new JsonObject();
         json.addProperty("window_view", windowView);
         json.addProperty("autosave_interval_minutes", autosaveIntervalMinutes);
+        json.addProperty("last_editor_tab", lastEditorTab);
         try {
             Path path = configPath();
             Files.createDirectories(path.getParent());
