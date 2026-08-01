@@ -2,8 +2,12 @@ package com.multiblocked2additions.forge.client;
 
 import com.multiblocked2additions.Multiblocked2Additions;
 
+import com.lowdragmc.lowdraglib.gui.editor.ui.Editor;
+
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,6 +38,16 @@ public final class ForgeClientEvents {
             if (event.phase == TickEvent.Phase.END && MBD2KeyMappings.OPEN_EDITOR.consumeClick()) {
                 MBD2EditorOpener.openEditor();
             }
+        }
+
+        @SubscribeEvent
+        public static void onLogout(ClientPlayerNetworkEvent.LoggingOut event) {
+            MBD2EditorOpener.clearLastProject();
+        }
+
+        @SubscribeEvent
+        public static void onScreenInit(ScreenEvent.Init.Post event) {
+            MBD2EditorOpener.restoreLastSession(Editor.INSTANCE);
         }
     }
 }

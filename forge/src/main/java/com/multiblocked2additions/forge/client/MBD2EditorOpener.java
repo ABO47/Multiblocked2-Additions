@@ -1,17 +1,46 @@
 package com.multiblocked2additions.forge.client;
 
+import com.lowdragmc.lowdraglib.gui.editor.data.IProject;
+import com.lowdragmc.lowdraglib.gui.editor.ui.Editor;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
+
 import com.lowdragmc.mbd2.common.gui.editor.MachineEditor;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.io.File;
+
 @OnlyIn(Dist.CLIENT)
 public final class MBD2EditorOpener {
+    private static IProject lastProject;
+    private static File lastProjectFile;
+
+    public static void clearLastProject() {
+        lastProject = null;
+        lastProjectFile = null;
+    }
+
+    public static void restoreLastSession(Editor editor) {
+        if (!(editor instanceof MachineEditor machineEditor)) {
+            return;
+        }
+        if (machineEditor.getCurrentProject() == null) {
+            if (lastProject != null) {
+                machineEditor.loadProject(lastProject);
+                machineEditor.setCurrentProjectFile(lastProjectFile);
+            }
+        }
+        editor.getGui().registerCloseListener(() -> {
+            lastProject = machineEditor.getCurrentProject();
+            lastProjectFile = machineEditor.getCurrentProjectFile();
+        });
+    }
 
     public static void openEditor() {
         Minecraft minecraft = Minecraft.getInstance();
