@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
+    "MachineProjectMixin",
     "MinecraftMixin",
+    "MultiblockMachineProjectMixin",
     "ViewMenuMixin"
   ],
   "injectors": {
