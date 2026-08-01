@@ -11,7 +11,10 @@
     "ModularUIGuiContainerMixin",
     "MultiblockAreaPanelMixin",
     "MultiblockMachineProjectMixin",
+    "ResourcePanelMixin",
+    "StringTabContainerMixin",
     "TextFieldWidgetMixin",
+    "ToolPanelMixin",
     "ViewMenuMixin"
   ],
   "injectors": {

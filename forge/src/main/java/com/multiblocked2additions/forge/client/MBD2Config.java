@@ -31,6 +31,8 @@ public final class MBD2Config {
     private static int selectionReach = loadInt("selection_reach", DEFAULT_SELECTION_REACH, 1, MAX_SELECTION_REACH);
     private static boolean airPickEnabled = loadBoolean("air_pick_enabled", true);
     private static int selectionLineWidth = loadInt("selection_line_width", DEFAULT_SELECTION_LINE_WIDTH, 1, MAX_SELECTION_LINE_WIDTH);
+    private static boolean toolPanelOpen = loadBoolean("tool_panel_open", true);
+    private static boolean resourcePanelOpen = loadBoolean("resource_panel_open", true);
 
     static {
         save();
@@ -69,6 +71,30 @@ public final class MBD2Config {
 
     public static int getSelectionLineWidth() {
         return selectionLineWidth;
+    }
+
+    public static boolean isToolPanelOpen() {
+        return toolPanelOpen;
+    }
+
+    public static boolean isResourcePanelOpen() {
+        return resourcePanelOpen;
+    }
+
+    public static void setToolPanelOpen(boolean open) {
+        if (toolPanelOpen == open) {
+            return;
+        }
+        toolPanelOpen = open;
+        save();
+    }
+
+    public static void setResourcePanelOpen(boolean open) {
+        if (resourcePanelOpen == open) {
+            return;
+        }
+        resourcePanelOpen = open;
+        save();
     }
 
     public static void setLastEditorTab(int index) {
@@ -111,6 +137,8 @@ public final class MBD2Config {
         json.addProperty("selection_reach", selectionReach);
         json.addProperty("air_pick_enabled", airPickEnabled);
         json.addProperty("selection_line_width", selectionLineWidth);
+        json.addProperty("tool_panel_open", toolPanelOpen);
+        json.addProperty("resource_panel_open", resourcePanelOpen);
         try {
             Path path = configPath();
             Files.createDirectories(path.getParent());
