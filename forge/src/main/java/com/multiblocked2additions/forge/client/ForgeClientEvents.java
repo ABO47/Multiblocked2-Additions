@@ -102,17 +102,21 @@ public final class ForgeClientEvents {
                 }
             } else if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
                 HitResult hit = Minecraft.getInstance().hitResult;
-                if (hit == null || hit.getType() != HitResult.Type.BLOCK) {
-                    return;
-                }
-                BlockPos pos = ((BlockHitResult) hit).getBlockPos();
                 if (player.isShiftKeyDown()) {
+                    if (hit == null || hit.getType() != HitResult.Type.BLOCK) {
+                        return;
+                    }
+                    BlockPos pos = ((BlockHitResult) hit).getBlockPos();
                     if (MBD2MultiblockSelector.pickController(pos)) {
                         notifyPlayer(TranslationKeys.MESSAGE_CONTROLLER_SET);
                     } else {
                         notifyPlayer(TranslationKeys.MESSAGE_CONTROLLER_OUTSIDE);
                     }
                 } else {
+                    BlockPos pos = MBD2MultiblockSelector.getHoveredPosition();
+                    if (pos == null) {
+                        return;
+                    }
                     MBD2MultiblockSelector.CornerResult result = MBD2MultiblockSelector.pickCorner(pos);
                     if (result == MBD2MultiblockSelector.CornerResult.FIRST) {
                         notifyPlayer(TranslationKeys.MESSAGE_CORNER_FIRST);

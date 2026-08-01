@@ -1,12 +1,16 @@
 package com.multiblocked2additions.forge.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -45,6 +49,23 @@ public final class MBD2MultiblockSelector {
         firstCorner = pos;
         secondCorner = null;
         return CornerResult.FIRST;
+    }
+
+    public static BlockPos getHoveredPosition() {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) {
+            return null;
+        }
+        HitResult hit = Minecraft.getInstance().hitResult;
+        if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+            return ((BlockHitResult) hit).getBlockPos();
+        }
+        if (!MBD2Config.isAirPickEnabled()) {
+            return null;
+        }
+        Vec3 eye = player.getEyePosition(1.0F);
+        Vec3 look = player.getLookAngle();
+        return BlockPos.containing(eye.add(look.scale(MBD2Config.getSelectionReach())));
     }
 
     public static boolean pickController(BlockPos pos) {
