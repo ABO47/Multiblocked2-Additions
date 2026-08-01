@@ -42,6 +42,9 @@ dependencies {
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") {
         transitive = false
     }
+    modImplementation("com.lowdragmc.multiblocked2:Multiblocked2:${minecraft_version}-${mbd2_version}") {
+        transitive = false
+    }
     modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}") {
         transitive = false
     }
@@ -85,6 +88,7 @@ tasks.named('processResources', ProcessResources).configure {
             forge_version_range    : forge_version_range,
             loader_version_range   : loader_version_range,
             ldlib_version          : ldlib_version,
+            mbd2_version           : mbd2_version,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

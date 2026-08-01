@@ -34,7 +34,7 @@ env:
 
 jobs:
   release:
-    name: Build and release Forge + Fabric
+    name: Build and release Forge # + Fabric
     runs-on: ubuntu-latest
 
     steps:
@@ -98,8 +98,8 @@ jobs:
           ./gradlew --no-daemon \
             -x :multiblocked2additions-common:test \
             :multiblocked2additions-forge:build \
-            :multiblocked2additions-fabric:build \
             -Pmod_version="$RELEASE_VERSION"
+          # :multiblocked2additions-fabric:build \ # re-enable if we return to Fabric
 
       - name: Stage release jars
         shell: bash
@@ -110,13 +110,13 @@ jobs:
 
           mkdir -p release
           forge_jar="forge/build/libs/multiblocked2additions-forge-${RELEASE_VERSION}.jar"
-          fabric_jar="fabric/build/libs/multiblocked2additions-fabric-${RELEASE_VERSION}.jar"
+          # fabric_jar="fabric/build/libs/multiblocked2additions-fabric-${RELEASE_VERSION}.jar" # re-enable if we return to Fabric
 
-          for jar in "$forge_jar" "$fabric_jar"; do
+          for jar in "$forge_jar"; do # "$fabric_jar" re-enable for Fabric
             if [ ! -f "$jar" ]; then
               echo "Expected release jar not found: $jar" >&2
               echo "Available jars:" >&2
-              find forge/build/libs fabric/build/libs -maxdepth 1 -type f -name "*.jar" -print >&2
+              find forge/build/libs -maxdepth 1 -type f -name "*.jar" -print >&2 # fabric/build/libs re-enable for Fabric
               exit 1
             fi
             cp "$jar" release/
@@ -127,7 +127,7 @@ jobs:
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: multiblocked2additions-${{ steps.meta.outputs.version }}-both-loaders
+          name: multiblocked2additions-${{ steps.meta.outputs.version }}-forge # -both-loaders # re-enable for Fabric
           path: release/*
           if-no-files-found: error
 

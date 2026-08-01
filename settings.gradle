@@ -12,8 +12,8 @@ rootProject.name = 'Multiblocked2-Additions'
 
 include 'multiblocked2additions-common'
 include 'multiblocked2additions-forge'
-include 'multiblocked2additions-fabric'
+// include 'multiblocked2additions-fabric' // re-enable if we return to Fabric
 
 project(':multiblocked2additions-common').projectDir = file('common')
 project(':multiblocked2additions-forge').projectDir = file('forge')
-project(':multiblocked2additions-fabric').projectDir = file('fabric')
+// project(':multiblocked2additions-fabric').projectDir = file('fabric')

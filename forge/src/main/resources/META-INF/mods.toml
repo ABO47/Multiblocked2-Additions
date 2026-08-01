@@ -31,5 +31,12 @@ versionRange="[${ldlib_version},)"
 ordering="AFTER"
 side="BOTH"
 
+[[dependencies.${mod_id}]]
+modId="mbd2"
+mandatory=true
+versionRange="[${minecraft_version}-${mbd2_version},)"
+ordering="AFTER"
+side="BOTH"
+
 [[mixins]]
 config="multiblocked2additions.forge.mixins.json"
