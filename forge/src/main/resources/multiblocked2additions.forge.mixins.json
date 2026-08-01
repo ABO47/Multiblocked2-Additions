@@ -11,6 +11,7 @@
     "ModularUIGuiContainerMixin",
     "MultiblockAreaPanelMixin",
     "MultiblockMachineProjectMixin",
+    "PatternLayerListMixin",
     "ResourcePanelMixin",
     "StringTabContainerMixin",
     "TextFieldWidgetMixin",
