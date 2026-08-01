@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.fabricmc.net/' }
+        maven { url = 'https://maven.architectury.dev/' }
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'Multiblocked2-Additions'
+
+include 'multiblocked2additions-common'
+include 'multiblocked2additions-forge'
+include 'multiblocked2additions-fabric'
+
+project(':multiblocked2additions-common').projectDir = file('common')
+project(':multiblocked2additions-forge').projectDir = file('forge')
+project(':multiblocked2additions-fabric').projectDir = file('fabric')
