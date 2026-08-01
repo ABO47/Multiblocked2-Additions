@@ -8,8 +8,10 @@
     "EditorMixin",
     "MachineProjectMixin",
     "MinecraftMixin",
+    "ModularUIGuiContainerMixin",
     "MultiblockAreaPanelMixin",
     "MultiblockMachineProjectMixin",
+    "TextFieldWidgetMixin",
     "ViewMenuMixin"
   ],
   "injectors": {
