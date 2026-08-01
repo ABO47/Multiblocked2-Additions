@@ -35,8 +35,11 @@ public final class ForgeClientEvents {
 
         @SubscribeEvent
         public static void onClientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase == TickEvent.Phase.END && MBD2KeyMappings.OPEN_EDITOR.consumeClick()) {
-                MBD2EditorOpener.openEditor();
+            if (event.phase == TickEvent.Phase.END) {
+                if (MBD2KeyMappings.OPEN_EDITOR.consumeClick()) {
+                    MBD2EditorOpener.openEditor();
+                }
+                MBD2EditorWindowView.applyPendingResize();
             }
         }
 
@@ -48,6 +51,7 @@ public final class ForgeClientEvents {
         @SubscribeEvent
         public static void onScreenInit(ScreenEvent.Init.Post event) {
             MBD2EditorOpener.restoreLastSession(Editor.INSTANCE);
+            MBD2EditorWindowView.onEditorOpened();
         }
     }
 }

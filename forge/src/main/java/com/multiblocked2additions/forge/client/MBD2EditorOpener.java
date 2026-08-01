@@ -20,6 +20,7 @@ import java.io.File;
 public final class MBD2EditorOpener {
     private static IProject lastProject;
     private static File lastProjectFile;
+    private static ModularUI capturedUi;
 
     public static void clearLastProject() {
         lastProject = null;
@@ -30,16 +31,21 @@ public final class MBD2EditorOpener {
         if (!(editor instanceof MachineEditor machineEditor)) {
             return;
         }
+        ModularUI ui = editor.getGui();
+        if (ui != capturedUi) {
+            capturedUi = ui;
+            ui.registerCloseListener(() -> {
+                lastProject = machineEditor.getCurrentProject();
+                lastProjectFile = machineEditor.getCurrentProjectFile();
+                MBD2EditorWindowView.onEditorClosed();
+            });
+        }
         if (machineEditor.getCurrentProject() == null) {
             if (lastProject != null) {
                 machineEditor.loadProject(lastProject);
                 machineEditor.setCurrentProjectFile(lastProjectFile);
             }
         }
-        editor.getGui().registerCloseListener(() -> {
-            lastProject = machineEditor.getCurrentProject();
-            lastProjectFile = machineEditor.getCurrentProjectFile();
-        });
     }
 
     public static void openEditor() {
