@@ -1,3 +1,7 @@
 {
-  "item.multiblocked2additions.multiblocked2additions_item": "Multiblocked2 Additions Item"
+  "itemGroup.multiblocked2additions.main": "Multiblocked2 Additions",
+  "item.multiblocked2additions.multiblocked2additions_item": "Multiblocked2 Additions Item",
+  "item.multiblocked2additions.editor_tablet": "Editor Tablet",
+  "key.multiblocked2additions.open_editor": "Open MBD2 Editor",
+  "key.categories.multiblocked2additions": "Multiblocked2 Additions"
 }
