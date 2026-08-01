@@ -8,7 +8,10 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.multiblocked2additions.forge.ForgeContent;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -89,7 +92,9 @@ public final class MBD2SelectionRenderer {
             RenderSystem.lineWidth(1);
         }
 
-        if (MBD2TabletMode.get() == MBD2TabletMode.TabletMode.MULTIBLOCK_SELECTION) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null && player.getMainHandItem().getItem() == ForgeContent.EDITOR_TABLET.get()
+                && MBD2TabletMode.get() == MBD2TabletMode.TabletMode.MULTIBLOCK_SELECTION) {
             BlockPos hover = MBD2MultiblockSelector.getHoveredPosition();
             if (hover != null) {
                 RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
