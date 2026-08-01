@@ -1,80 +1,123 @@
 package com.multiblocked2additions.forge.client;
 
+import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib.utils.ColorUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public final class MBD2SelectionRenderer {
 
     private static final int FROM_COLOR = 0x8f00ff00;
     private static final int TO_COLOR = 0x8fff0000;
+    private static final int FACE_COLOR = 0x2f0000ff;
     private static final int FRAME_COLOR = 0xffffffff;
     private static final int CONTROLLER_COLOR = 0xff00aaaa;
-    private static final int FACE_COLOR = 0x2f0000ff;
 
     private MBD2SelectionRenderer() {
     }
 
-    public static void render(Camera camera) {
+    public static void render(Camera camera, PoseStack poseStack) {
         BlockPos first = MBD2MultiblockSelector.getFirstCorner();
         if (first == null) {
             return;
         }
-        PoseStack view = new PoseStack();
-        view.mulPose(camera.rotation());
-        Vec3 projectedView = camera.getPosition();
-        view.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-        RenderSystem.getModelViewStack().pushPose();
-        RenderSystem.getModelViewStack().last().pose().set(view.last().pose());
-        RenderSystem.applyModelViewMatrix();
-        RenderSystem.disableDepthTest();
-        PoseStack identity = new PoseStack();
-        VertexConsumer buffer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.lines());
-        drawFrame(buffer, identity, new AABB(first), FROM_COLOR);
         BlockPos second = MBD2MultiblockSelector.getSecondCorner();
-        if (second != null) {
-            drawFrame(buffer, identity, new AABB(second), TO_COLOR);
-            drawFrame(buffer, identity, MBD2MultiblockSelector.getSelectionBox(), FRAME_COLOR);
-        }
         BlockPos controller = MBD2MultiblockSelector.getController();
-        if (controller != null) {
-            drawFrame(buffer, identity, new AABB(controller), CONTROLLER_COLOR);
-            drawFrame(buffer, identity, faceBox(controller, MBD2MultiblockSelector.getControllerFace()), FACE_COLOR);
+
+        poseStack.pushPose();
+        Vec3 cameraPosition = camera.getPosition();
+        poseStack.translate(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z);
+
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.disableCull();
+
+        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        buffer.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                first.getX(), first.getY(), first.getZ(),
+                first.getX() + 1, first.getY() + 1, first.getZ() + 1,
+                ColorUtils.red(FROM_COLOR), ColorUtils.green(FROM_COLOR), ColorUtils.blue(FROM_COLOR), 0.2F, false);
+        if (second != null) {
+            RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    second.getX(), second.getY(), second.getZ(),
+                    second.getX() + 1, second.getY() + 1, second.getZ() + 1,
+                    ColorUtils.red(TO_COLOR), ColorUtils.green(TO_COLOR), ColorUtils.blue(TO_COLOR), 0.2F, false);
         }
-        Minecraft.getInstance().renderBuffers().bufferSource().endBatch(RenderType.lines());
+        if (controller != null) {
+            drawControllerFace(poseStack, buffer, controller, MBD2MultiblockSelector.getControllerFace());
+        }
+        Tesselator.getInstance().end();
+
+        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+        RenderSystem.lineWidth(10);
+
+        int minX = second == null ? first.getX() : Math.min(first.getX(), second.getX());
+        int minY = second == null ? first.getY() : Math.min(first.getY(), second.getY());
+        int minZ = second == null ? first.getZ() : Math.min(first.getZ(), second.getZ());
+        int maxX = second == null ? first.getX() + 1 : Math.max(first.getX(), second.getX()) + 1;
+        int maxY = second == null ? first.getY() + 1 : Math.max(first.getY(), second.getY()) + 1;
+        int maxZ = second == null ? first.getZ() + 1 : Math.max(first.getZ(), second.getZ()) + 1;
+        RenderBufferUtils.drawCubeFrame(poseStack, buffer,
+                minX, minY, minZ, maxX, maxY, maxZ,
+                ColorUtils.red(FRAME_COLOR), ColorUtils.green(FRAME_COLOR), ColorUtils.blue(FRAME_COLOR), ColorUtils.alpha(FRAME_COLOR));
+        if (controller != null) {
+            RenderBufferUtils.drawCubeFrame(poseStack, buffer,
+                    controller.getX(), controller.getY(), controller.getZ(),
+                    controller.getX() + 1, controller.getY() + 1, controller.getZ() + 1,
+                    ColorUtils.red(CONTROLLER_COLOR), ColorUtils.green(CONTROLLER_COLOR), ColorUtils.blue(CONTROLLER_COLOR), ColorUtils.alpha(CONTROLLER_COLOR));
+        }
+        Tesselator.getInstance().end();
+        RenderSystem.lineWidth(1);
+
         RenderSystem.enableDepthTest();
-        RenderSystem.getModelViewStack().popPose();
-        RenderSystem.applyModelViewMatrix();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableCull();
+        poseStack.popPose();
     }
 
-    private static void drawFrame(VertexConsumer buffer, PoseStack poseStack, AABB box, int color) {
-        LevelRenderer.renderLineBox(poseStack, buffer, box,
-                ColorUtils.red(color) / 255f, ColorUtils.green(color) / 255f, ColorUtils.blue(color) / 255f, ColorUtils.alpha(color) / 255f);
-    }
-
-    private static AABB faceBox(BlockPos pos, Direction face) {
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        return switch (face) {
-            case UP -> new AABB(x, y + 1, z, x + 1, y + 1, z + 1);
-            case DOWN -> new AABB(x, y, z, x + 1, y, z + 1);
-            case NORTH -> new AABB(x, y, z, x + 1, y + 1, z);
-            case SOUTH -> new AABB(x, y, z + 1, x + 1, y + 1, z + 1);
-            case WEST -> new AABB(x, y, z, x, y + 1, z + 1);
-            case EAST -> new AABB(x + 1, y, z, x + 1, y + 1, z + 1);
-        };
+    private static void drawControllerFace(PoseStack poseStack, BufferBuilder buffer, BlockPos pos, Direction face) {
+        float r = ColorUtils.red(FACE_COLOR);
+        float g = ColorUtils.green(FACE_COLOR);
+        float b = ColorUtils.blue(FACE_COLOR);
+        float a = ColorUtils.alpha(FACE_COLOR);
+        switch (face) {
+            case UP -> RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    pos.getX(), pos.getY() + 1, pos.getZ(),
+                    pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1, r, g, b, a, false);
+            case DOWN -> RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    pos.getX(), pos.getY(), pos.getZ(),
+                    pos.getX() + 1, pos.getY(), pos.getZ() + 1, r, g, b, a, false);
+            case NORTH -> RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    pos.getX(), pos.getY(), pos.getZ(),
+                    pos.getX() + 1, pos.getY() + 1, pos.getZ(), r, g, b, a, false);
+            case SOUTH -> RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    pos.getX(), pos.getY(), pos.getZ() + 1,
+                    pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1, r, g, b, a, false);
+            case WEST -> RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    pos.getX(), pos.getY(), pos.getZ(),
+                    pos.getX(), pos.getY() + 1, pos.getZ() + 1, r, g, b, a, false);
+            case EAST -> RenderBufferUtils.drawCubeFace(poseStack, buffer,
+                    pos.getX() + 1, pos.getY(), pos.getZ(),
+                    pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1, r, g, b, a, false);
+        }
     }
 }

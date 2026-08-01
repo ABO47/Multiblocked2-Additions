@@ -127,7 +127,7 @@ public final class ForgeClientEvents {
         @SubscribeEvent
         public static void onRenderLevelStage(RenderLevelStageEvent event) {
             if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {
-                MBD2SelectionRenderer.render(event.getCamera());
+                MBD2SelectionRenderer.render(event.getCamera(), event.getPoseStack());
             }
         }
 
