@@ -18,7 +18,7 @@ Multiblocked2 Additions is a quality of life addon for Multiblocked2. The Multib
 ### Editor Tablet
 The core item of the mod, which add the ability to opens the Multiblocked2 editor.
 - New tablet item with two modes: editor and multiblock selection
-- Multiblock selection mode — select blocks (or air) in the world as the machine pattern instead of using the hard to use (IMO) preview in the mutliblock area tab specially if you are dealing with giant multiblock (**HOW TO USE: simply hold the tablet and switch to the selection mode by pressing the keybind "default to M" then right click the first corner your multiblock then right click the second corner then sneak + right click to set the controller and then open the editor to to pattern and add shape info**).
+- Multiblock selection mode — select blocks (or air) in the world as the machine pattern instead of using the hard to use (IMO) preview in the mutliblock area tab specially if you are dealing with giant multiblock (**HOW TO USE: simply hold the tablet and switch to the selection mode by pressing the keybind "default to M" then right click the first corner of your multiblock then right click the second corner then sneak + right click to set the controller and then open the editor to ofc click to pattern and add shape info**).
 - Ghost preview of the selection, only visible while holding the tablet to make it easier to see what block you are gonna select
 - Dedicated keybinds for opening the editor and switching tablet modes
 
