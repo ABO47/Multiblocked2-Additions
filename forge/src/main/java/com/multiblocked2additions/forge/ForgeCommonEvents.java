@@ -21,7 +21,6 @@ public final class ForgeCommonEvents {
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         event.getDispatcher().register(Commands.literal("mbd2additions")
-                .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("reload_machine")
                         .then(Commands.argument("id", ResourceLocationArgument.id())
                                 .executes(context -> {
