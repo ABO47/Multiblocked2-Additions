@@ -1,8 +1,23 @@
 {
   "required": true,
+  "minVersion": "0.8.5",
   "package": "com.multiblocked2additions.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
+  "client": [
+    "EditorMixin",
+    "MachineProjectMixin",
+    "MinecraftMixin",
+    "ModularUIGuiContainerMixin",
+    "MultiblockAreaPanelMixin",
+    "MultiblockMachineProjectMixin",
+    "PatternLayerListMixin",
+    "ResourcePanelMixin",
+    "StringTabContainerMixin",
+    "TextFieldWidgetMixin",
+    "ToolPanelMixin",
+    "ViewMenuMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

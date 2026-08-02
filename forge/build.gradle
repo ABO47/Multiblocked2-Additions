@@ -107,6 +107,7 @@ tasks.named('jar', Jar).configure {
     archiveClassifier = 'dev'
     manifest {
         attributes([
+                'MixinConfigs'            : 'multiblocked2additions.forge.mixins.json',
                 'Specification-Title'     : mod_id,
                 'Specification-Vendor'    : mod_authors,
                 'Specification-Version'   : '1',
