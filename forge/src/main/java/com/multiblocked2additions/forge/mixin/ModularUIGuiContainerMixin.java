@@ -14,22 +14,22 @@ public abstract class ModularUIGuiContainerMixin {
 
     private static boolean typingAllowed = true;
 
-    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    @Inject(method = {"mouseClicked", "m_6375_"}, at = @At("HEAD"))
     private void onMouseClickedPre(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         blurOnClick(mouseX, mouseY);
     }
 
-    @Inject(method = "mouseClicked", at = @At("TAIL"))
+    @Inject(method = {"mouseClicked", "m_6375_"}, at = @At("TAIL"))
     private void onMouseClickedPost(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         blurOnClick(mouseX, mouseY);
     }
 
-    @Inject(method = "mouseReleased", at = @At("TAIL"))
+    @Inject(method = {"mouseReleased", "m_6348_"}, at = @At("TAIL"))
     private void onMouseReleased(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         blurOnClick(mouseX, mouseY);
     }
 
-    @Inject(method = "charTyped", at = @At("HEAD"), cancellable = true)
+    @Inject(method = {"charTyped", "m_5534_"}, at = @At("HEAD"), cancellable = true)
     private void onCharTyped(char codePoint, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         Editor editor = Editor.INSTANCE;
         if (editor == null || editor.getGui() == null) {
