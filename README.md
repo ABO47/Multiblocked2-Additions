@@ -23,7 +23,7 @@ The core item of the mod, which add the ability to opens the Multiblocked2 edito
 - Dedicated keybinds for opening the editor and switching tablet modes
 
 ### Machine Editor Improvements
-- Machine hot reload — changes to machines you already built apply automatically, no restart needed; creating a brand-new machine still needs a restart
+- Machine hot reload which makes changes to machines you already built apply automatically, no need to type the reload command manually and ofc creating a brand-new machine still needs a restart
 - Project autosave on creation, on an interval (default to save every 5 min), on switching projects and on close
 - Editor remembers the last opened tab
 - Side panel remembers open/close state and skips the slide animation on tab enter
