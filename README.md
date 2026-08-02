@@ -38,11 +38,15 @@ The core item of the mod, which add the ability to opens the Multiblocked2 edito
 ## SOME NOTES
 
 <p style="color: #00bcd4; font-size: 1.1em; font-weight: bold;">
-My mods and texture packs are officially published **only** on Modrinth. Since this mod is licensed under the MIT License, you may also see reuploads elsewhere, so please download only from sources you trust and be careful with random files.
+My mods and texture packs are officially published only on Modrinth. Since this mod is licensed under the MIT License, you may also see reuploads elsewhere, so please download only from sources you trust and be careful with random files.
 </p>
 
 <p style="color: #00bcd4; font-size: 1.1em; font-weight: bold;">
 An AI coding agent was used during development. Just putting it out there for transparency. If that bothers you, that is completely fine use it, avoid it, ignore it or simply do what you want with it. It is up to you.
+</p>
+
+<p style="color: #00bcd4; font-size: 1.1em; font-weight: bold;">
+If you look at the source code you will see that is built using a multiloader template even though only the Forge version is released. The Fabric build is currently disabled because Multiblocked2 itself is Forge-only, but if I ever port Multiblocked2 to Fabric first, a Fabric version of this mod will probably follow.
 </p>
 
 ## License
